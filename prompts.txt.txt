@@ -1,0 +1,191 @@
+BSERC GENAI INTERNSHIP – PROJECT 2
+Topic: Artificial Intelligence & Machine Learning
+
+PROMPT 1: AI & ML LEARNING DASHBOARD
+Act as an expert frontend developer and UI/UX designer.
+
+Create a complete, professional, responsive, interactive AI & Machine Learning Learning Dashboard for a college student.
+
+PROJECT NAME:
+AI & ML Learning Hub
+
+TECHNICAL REQUIREMENTS:
+1. Use only HTML, CSS and vanilla JavaScript.
+2. Generate the entire project in ONE single HTML file.
+3. Do not use React, backend services, APIs or paid libraries.
+4. The page must work by opening the HTML file directly in a browser.
+5. Make it responsive for both laptops and mobile phones.
+6. Use a modern, professional dashboard design with a sidebar, cards, charts and clear navigation.
+7. Use realistic sample learning data. Do not pretend that data is live.
+
+REQUIRED INTERACTIVE FEATURES:
+1. Dashboard navigation: switch between Home, AI Concepts, Learning Progress and Quiz sections.
+2. Topic filters: filter topics such as Artificial Intelligence, Machine Learning, Deep Learning and Neural Networks.
+3. Search bar: search and display matching learning topics.
+4. Progress tracker: allow users to mark topics as completed and update the progress percentage.
+5. Interactive quiz: include at least 5 MCQs, show the score and correct answers after submission.
+6. Flashcards: clicking a card should reveal its explanation.
+7. Dark/light mode toggle.
+8. Reset button to reset learning progress and quiz data.
+
+CONTENT:
+Explain AI, Machine Learning, Deep Learning, Neural Networks, Supervised Learning, Unsupervised Learning and Reinforcement Learning in simple but technically accurate language.
+
+DESIGN:
+- Professional academic dashboard.
+- Attractive typography and consistent spacing.
+- Clear visual hierarchy.
+- Use cards, progress bars and simple charts.
+- Include a student-friendly interface.
+- Avoid unnecessary animations.
+
+IMPORTANT:
+- Every button and interactive element must work.
+- Do not leave placeholder buttons.
+- Add comments in the code for important JavaScript functions.
+- Ensure there are no JavaScript errors.
+- Keep all CSS and JavaScript inside the HTML file.
+- Output the complete HTML code in ONE code block.
+- Do not omit any part of the code.
+
+PROMPT 2: INTERACTIVE AI & ML PRESENTATION
+Act as an expert frontend developer, educational content designer and UI/UX specialist.
+
+Create a professional, fully interactive educational presentation titled:
+
+"Understanding Artificial Intelligence & Machine Learning"
+
+TECHNICAL REQUIREMENTS:
+1. Use only HTML, CSS and vanilla JavaScript.
+2. Generate everything in ONE single HTML file.
+3. No React, backend, external APIs or paid libraries.
+4. It must work directly by opening the HTML file in a browser.
+5. Make it responsive for desktop, tablet and mobile.
+6. Use realistic and technically accurate educational content.
+
+PRESENTATION STRUCTURE:
+Slide 1: Title and introduction.
+Slide 2: What is Artificial Intelligence?
+Slide 3: What is Machine Learning?
+Slide 4: AI vs ML vs Deep Learning comparison.
+Slide 5: Types of Machine Learning – Supervised, Unsupervised and Reinforcement Learning.
+Slide 6: Neural Networks and how they work.
+Slide 7: Real-world AI applications in healthcare, education, finance and transportation.
+Slide 8: Benefits and limitations of AI.
+Slide 9: Responsible AI, ethics, privacy and bias.
+Slide 10: Future of AI and conclusion.
+
+INTERACTIVE FEATURES:
+1. Next and Previous slide buttons.
+2. Slide navigation menu or clickable slide indicators.
+3. Keyboard navigation using arrow keys.
+4. Progress bar showing presentation progress.
+5. Dark/light mode toggle.
+6. Interactive AI vs ML comparison.
+7. Clickable machine learning type cards that reveal explanations.
+8. A short 5-question knowledge quiz at the end with score calculation.
+9. Restart presentation button.
+10. Fullscreen presentation button.
+
+DESIGN:
+- Modern professional presentation interface.
+- Attractive typography and clean layouts.
+- Use gradients, cards, diagrams and simple CSS visualizations.
+- Smooth slide transitions.
+- Consistent colors and spacing.
+- Avoid overcrowding slides.
+
+IMPORTANT:
+- All buttons must work.
+- Do not use placeholder content.
+- Add comments to important JavaScript functions.
+- Ensure no JavaScript errors.
+- Keep all HTML, CSS and JavaScript in one file.
+- Output the complete HTML code in one code block.
+- Do not omit any code.
+
+PROMPT 3: MACHINE LEARNING MODEL EXPLORER
+Act as an expert frontend developer, machine learning educator and UI/UX designer.
+
+Create a complete, professional, interactive web application titled:
+
+"Machine Learning Model Explorer"
+
+PURPOSE:
+Help college students understand how machine learning algorithms work through interactive visual experiments.
+
+TECHNICAL REQUIREMENTS:
+1. Use only HTML, CSS and vanilla JavaScript.
+2. Everything must be inside ONE single HTML file.
+3. No React, backend, external APIs or paid libraries.
+4. Must work by opening the HTML file directly in a browser.
+5. Responsive for desktop, tablet and mobile.
+6. Use realistic sample datasets and clearly label them as simulated data.
+
+APPLICATION SECTIONS:
+
+1. Introduction
+Explain machine learning and its basic workflow:
+Data → Training → Model → Prediction.
+
+2. Algorithm Explorer
+Include three algorithms:
+- Linear Regression
+- Decision Tree
+- K-Nearest Neighbors (KNN)
+
+Allow users to select an algorithm and display a simple explanation of how it works.
+
+3. Interactive Dataset
+Create a sample dataset for student performance with:
+- Study hours
+- Attendance percentage
+- Previous test score
+- Final score
+
+Allow users to change sample input values using sliders or input fields.
+
+4. Prediction Simulator
+Use actual JavaScript calculations to generate sample predictions.
+- Linear Regression: implement a simple regression calculation.
+- KNN: calculate distances from sample training records and predict using nearest neighbors.
+- Decision Tree: implement a simple rule-based decision tree and explain that it is an illustrative model.
+
+Show the prediction and explain which input values influenced it.
+
+5. Visualizations
+Display:
+- Sample data table.
+- Simple CSS or SVG visualization of the data.
+- Prediction result card.
+- Comparison of the three algorithms.
+
+INTERACTIVE FEATURES:
+1. Algorithm selection.
+2. Study hours slider.
+3. Attendance slider.
+4. Previous score slider.
+5. Predict button.
+6. Random sample data button.
+7. Reset button.
+8. Show/hide explanation button.
+9. Light/dark mode toggle.
+10. At least one interactive chart or visual representation.
+
+DESIGN:
+- Professional educational dashboard.
+- Modern cards and clean typography.
+- Attractive but readable layout.
+- Clear labels and tooltips.
+- Good mobile responsiveness.
+
+IMPORTANT:
+- All controls must work.
+- Predictions must be calculated by JavaScript, not hardcoded.
+- Use a small, clearly identified sample dataset.
+- Explain that this is an educational simulation, not a validated predictive model.
+- Add comments to important JavaScript functions.
+- Ensure no JavaScript errors.
+- Include all code in one HTML file.
+- Output the complete code in one code block.
+- Do not omit any part of the code.

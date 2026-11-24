@@ -1,0 +1,1752 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Understanding Artificial Intelligence & Machine Learning</title>
+
+<style>
+/* ================= GLOBAL SETTINGS ================= */
+
+:root {
+    --bg: #f4f6fc;
+    --surface: #ffffff;
+    --surface2: #edf0fa;
+    --text: #17213c;
+    --muted: #68738d;
+    --primary: #6755e8;
+    --secondary: #17b8b0;
+    --accent: #f3a64a;
+    --border: #e1e5f0;
+    --shadow: 0 12px 35px rgba(40,45,90,.08);
+}
+
+body.dark {
+    --bg: #101426;
+    --surface: #1b2239;
+    --surface2: #252e49;
+    --text: #f1f3ff;
+    --muted: #a6b0ca;
+    --primary: #9485ff;
+    --secondary: #44d4c5;
+    --accent: #ffc16b;
+    --border: #303954;
+    --shadow: 0 12px 35px rgba(0,0,0,.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    transition: background .3s, color .3s;
+    min-height: 100vh;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* ================= HEADER ================= */
+
+.topbar {
+    height: 66px;
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+    background: linear-gradient(135deg,#6755e8,#16b8b0);
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-btn {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    padding: 9px 13px;
+    border-radius: 10px;
+    font-size: 17px;
+}
+
+/* ================= PROGRESS ================= */
+
+.progress-container {
+    height: 4px;
+    background: var(--surface2);
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg,var(--primary),var(--secondary));
+    transition: width .4s;
+}
+
+/* ================= MAIN PRESENTATION ================= */
+
+.presentation {
+    max-width: 1250px;
+    margin: auto;
+    padding: 35px 35px 20px;
+}
+
+.slide {
+    display: none;
+    min-height: 590px;
+    animation: appear .4s ease;
+}
+
+.slide.active {
+    display: block;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.eyebrow {
+    display: inline-block;
+    color: var(--primary);
+    background: var(--surface2);
+    padding: 8px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: clamp(36px,6vw,68px);
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 22px;
+}
+
+h2 {
+    font-size: clamp(29px,4vw,43px);
+    letter-spacing: -1px;
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+p {
+    color: var(--muted);
+    line-height: 1.75;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg,#7663f1,#17b8b0);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    max-width: 700px;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.section-intro {
+    max-width: 750px;
+    margin-bottom: 28px;
+}
+
+.section-intro p {
+    font-size: 16px;
+}
+
+/* ================= LAYOUTS ================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 20px;
+}
+
+.grid.three {
+    grid-template-columns: repeat(3,minmax(0,1fr));
+}
+
+.grid.four {
+    grid-template-columns: repeat(4,minmax(0,1fr));
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+}
+
+.card p {
+    font-size: 14px;
+}
+
+.card-icon {
+    font-size: 30px;
+    margin-bottom: 16px;
+}
+
+.highlight-card {
+    background: linear-gradient(135deg,#6755e8,#5140bd);
+    color: white;
+    border-radius: 22px;
+    padding: 32px;
+}
+
+.highlight-card p {
+    color: #e0dcff;
+}
+
+.tag {
+    display: inline-block;
+    background: var(--surface2);
+    color: var(--primary);
+    padding: 6px 11px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 4px 3px 0 0;
+}
+
+ul {
+    padding-left: 20px;
+    color: var(--muted);
+    line-height: 2;
+    font-size: 14px;
+}
+
+strong {
+    color: var(--text);
+}
+
+/* ================= SLIDE 1 ================= */
+
+.hero {
+    min-height: 530px;
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-art {
+    min-height: 350px;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle,var(--surface2),transparent 70%);
+    position: relative;
+}
+
+.brain {
+    width: 220px;
+    height: 220px;
+    border-radius: 45% 55% 50% 50%;
+    display: grid;
+    place-items: center;
+    font-size: 100px;
+    background: linear-gradient(135deg,#7663f1,#17b8b0);
+    box-shadow: 0 25px 70px rgba(103,85,232,.3);
+    animation: float 4s infinite ease-in-out;
+}
+
+@keyframes float {
+    50% { transform: translateY(-15px); }
+}
+
+.orbit {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 1px dashed var(--primary);
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    to { transform: rotate(360deg); }
+}
+
+.hero-stat {
+    position: absolute;
+    background: var(--surface);
+    padding: 12px 17px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.stat1 { top: 25px; right: 0; }
+.stat2 { bottom: 35px; left: 0; }
+
+/* ================= DIAGRAMS ================= */
+
+.diagram {
+    background: var(--surface2);
+    padding: 24px;
+    border-radius: 18px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.diagram-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 13px;
+    flex-wrap: wrap;
+}
+
+.diagram-box {
+    background: var(--surface);
+    padding: 15px 22px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-weight: 700;
+    min-width: 110px;
+}
+
+.arrow {
+    font-size: 23px;
+    color: var(--primary);
+}
+
+/* ================= COMPARISON ================= */
+
+.comparison-switch {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.switch-btn {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 20px;
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 700;
+}
+
+.switch-btn.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.comparison-result {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 25px;
+    min-height: 135px;
+    margin-bottom: 20px;
+}
+
+/* ================= ML CARDS ================= */
+
+.ml-card {
+    cursor: pointer;
+    transition: transform .25s,border .25s;
+    border: 1px solid var(--border);
+}
+
+.ml-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+.ml-card.selected {
+    border: 2px solid var(--primary);
+}
+
+.ml-detail {
+    display: none;
+    background: var(--surface2);
+    padding: 18px;
+    border-radius: 12px;
+    margin-top: 18px;
+}
+
+.ml-detail.show {
+    display: block;
+    animation: appear .3s;
+}
+
+/* ================= NEURAL NETWORK ================= */
+
+.network {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    background: var(--surface2);
+    border-radius: 20px;
+    padding: 35px 15px;
+    overflow-x: auto;
+}
+
+.layer {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.neuron {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#7867f2,#19bcb0);
+    box-shadow: 0 3px 12px rgba(103,85,232,.25);
+}
+
+.layer-label {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    white-space: nowrap;
+}
+
+.network-arrow {
+    color: var(--primary);
+    font-size: 27px;
+}
+
+/* ================= APPLICATIONS ================= */
+
+.app-card {
+    min-height: 200px;
+}
+
+/* ================= FUTURE ================= */
+
+.timeline {
+    border-left: 3px solid var(--primary);
+    padding-left: 25px;
+    margin-left: 10px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.timeline-item:before {
+    content: "";
+    position: absolute;
+    left: -34px;
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    background: var(--secondary);
+    border-radius: 50%;
+    border: 3px solid var(--surface);
+}
+
+/* ================= QUIZ ================= */
+
+.quiz-question {
+    margin-bottom: 25px;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.quiz-option {
+    padding: 13px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-align: left;
+    color: var(--text);
+    transition: .2s;
+}
+
+.quiz-option:hover {
+    border-color: var(--primary);
+}
+
+.quiz-option.correct {
+    background: #d5f6e7;
+    border-color: #16a36a;
+    color: #126c49;
+}
+
+.quiz-option.wrong {
+    background: #ffe1e1;
+    border-color: #e45c5c;
+    color: #a42b2b;
+}
+
+.quiz-option:disabled {
+    cursor: default;
+}
+
+.feedback {
+    font-size: 13px;
+    margin-top: 8px;
+    font-weight: 700;
+}
+
+.quiz-result {
+    display: none;
+    background: var(--surface2);
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ================= CONTROLS ================= */
+
+.bottom-controls {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 15px 35px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.nav-btn {
+    padding: 12px 22px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.nav-btn.primary {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.nav-btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.slide-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background: var(--border);
+    border: none;
+    border-radius: 20px;
+    transition: .3s;
+}
+
+.dot.active {
+    width: 27px;
+    background: var(--primary);
+}
+
+/* ================= SLIDE MENU ================= */
+
+.slide-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0,0,0,.5);
+    display: none;
+    justify-content: flex-end;
+}
+
+.slide-menu.open {
+    display: flex;
+}
+
+.menu-panel {
+    width: min(360px,90%);
+    background: var(--surface);
+    padding: 25px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.menu-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 13px;
+    margin-bottom: 7px;
+    background: var(--surface2);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: var(--text);
+}
+
+.menu-item.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: 800;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:850px) {
+    .grid.four { grid-template-columns: repeat(2,1fr); }
+    .grid.three { grid-template-columns: repeat(2,1fr); }
+    .hero { grid-template-columns: 1fr; }
+    .hero-art { min-height: 300px; }
+}
+
+@media(max-width:600px) {
+    .presentation { padding: 25px 17px 10px; }
+    .slide { min-height: 580px; }
+    .grid,.grid.three,.grid.four { grid-template-columns: 1fr; }
+    .bottom-controls { padding: 15px 17px 25px; }
+    .nav-btn { padding: 10px 13px; font-size: 12px; }
+    .brand { font-size: 12px; }
+    .quiz-options { grid-template-columns: 1fr; }
+    .network { justify-content: flex-start; }
+    .comparison-switch { flex-wrap: wrap; }
+    .orbit { width: 260px; height: 260px; }
+    .brain { width: 175px; height: 175px; font-size: 75px; }
+    .hero-stat { font-size: 11px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="topbar">
+    <div class="brand">
+        <div class="logo">AI</div>
+        <span>AI & ML Learning Hub</span>
+    </div>
+
+    <div class="header-actions">
+        <button class="icon-btn" onclick="toggleMenu()" title="Slide menu">☰</button>
+        <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">☀️</button>
+        <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+    </div>
+</header>
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- PRESENTATION -->
+<main class="presentation">
+
+<!-- SLIDE 1 -->
+<section class="slide active">
+    <div class="hero">
+        <div>
+            <span class="eyebrow">A beginner-friendly introduction</span>
+            <h1>Understanding <span class="gradient-text">Artificial Intelligence & Machine Learning</span></h1>
+            <p class="subtitle">
+                Explore how intelligent machines learn, reason, recognize patterns
+                and transform the world around us.
+            </p>
+            <div>
+                <span class="tag">Artificial Intelligence</span>
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Deep Learning</span>
+                <span class="tag">Future Technology</span>
+            </div>
+            <br>
+            <p><strong>10 learning modules + Interactive knowledge quiz</strong></p>
+        </div>
+
+        <div class="hero-art">
+            <div class="orbit"></div>
+            <div class="brain">🧠</div>
+            <div class="hero-stat stat1">🤖 Intelligent Systems</div>
+            <div class="hero-stat stat2">📊 Learning from Data</div>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide">
+    <span class="eyebrow">01 / Foundations</span>
+    <h2>What is <span class="gradient-text">Artificial Intelligence?</span></h2>
+
+    <div class="section-intro">
+        <p>
+            Artificial Intelligence (AI) is a field of computer science that focuses
+            on creating systems capable of performing tasks that typically require
+            human intelligence.
+        </p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-icon">🧠</div>
+            <h3>Reasoning</h3>
+            <p>Using available information and logical rules to reach conclusions or solve problems.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">👁️</div>
+            <h3>Perception</h3>
+            <p>Understanding visual, audio and other sensory information from the environment.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">💬</div>
+            <h3>Language Understanding</h3>
+            <p>Processing and generating human language through Natural Language Processing (NLP).</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🎯</div>
+            <h3>Decision Making</h3>
+            <p>Evaluating possible actions and selecting an appropriate response to a situation.</p>
+        </div>
+    </div>
+
+    <div class="diagram">
+        <h3>Examples of AI in everyday life</h3>
+        <div class="diagram-row">
+            <div class="diagram-box">🎙️ Voice Assistants</div>
+            <div class="diagram-box">🚗 Self-driving Features</div>
+            <div class="diagram-box">📱 Recommendations</div>
+            <div class="diagram-box">🤖 Chatbots</div>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide">
+    <span class="eyebrow">02 / Foundations</span>
+    <h2>What is <span class="gradient-text">Machine Learning?</span></h2>
+
+    <div class="section-intro">
+        <p>
+            Machine Learning (ML) is a subset of AI that enables computers to
+            identify patterns in data and improve their performance on a task
+            without being explicitly programmed with every individual rule.
+        </p>
+    </div>
+
+    <div class="grid">
+        <div class="highlight-card">
+            <div class="card-icon">📈</div>
+            <h3>Learning from Data</h3>
+            <p>ML algorithms use examples to identify relationships and patterns.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">⚙️</div>
+            <h3>Making Predictions</h3>
+            <p>Trained models use learned patterns to make predictions or decisions on new data.</p>
+        </div>
+    </div>
+
+    <h3 style="margin-top:30px;">How Machine Learning works</h3>
+
+    <div class="diagram">
+        <div class="diagram-row">
+            <div class="diagram-box">📚 Data</div>
+            <span class="arrow">→</span>
+            <div class="diagram-box">⚙️ Algorithm</div>
+            <span class="arrow">→</span>
+            <div class="diagram-box">🧠 Training</div>
+            <span class="arrow">→</span>
+            <div class="diagram-box">🎯 Prediction</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Example: Email Spam Detection</h3>
+        <p>
+            A model learns from previously labeled emails. It identifies patterns
+            associated with spam and legitimate messages, then predicts the category
+            of a new email.
+        </p>
+        <br>
+        <span class="tag">Training Data</span>
+        <span class="tag">Feature Extraction</span>
+        <span class="tag">Classification</span>
+    </div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide">
+    <span class="eyebrow">03 / Key Differences</span>
+    <h2>AI vs ML vs <span class="gradient-text">Deep Learning</span></h2>
+
+    <div class="section-intro">
+        <p>
+            These three terms are closely related, but they describe different
+            levels of technology and learning approaches.
+        </p>
+    </div>
+
+    <div class="diagram">
+        <div class="diagram-box" style="background:var(--primary);color:white;max-width:550px;margin:auto;">
+            Artificial Intelligence (AI)
+            <div style="background:#ffffff25;padding:20px;border-radius:12px;margin-top:15px;">
+                Machine Learning (ML)
+                <div style="background:#ffffff30;padding:18px;border-radius:12px;margin-top:15px;">
+                    Deep Learning (DL)
+                </div>
+            </div>
+        </div>
+        <p style="margin-top:14px;font-size:12px;">Deep Learning is a subset of ML, which is a subset of AI.</p>
+    </div>
+
+    <div class="comparison-switch">
+        <button class="switch-btn selected" onclick="showComparison('ai',this)">Artificial Intelligence</button>
+        <button class="switch-btn" onclick="showComparison('ml',this)">Machine Learning</button>
+        <button class="switch-btn" onclick="showComparison('dl',this)">Deep Learning</button>
+    </div>
+
+    <div class="comparison-result" id="comparisonResult">
+        <h3>Artificial Intelligence (AI)</h3>
+        <p>Broad field focused on building intelligent systems that perform tasks such as reasoning, planning and problem solving.</p>
+        <br>
+        <strong>Example:</strong> A rule-based chess-playing program.
+    </div>
+
+    <div class="grid three">
+        <div class="card">
+            <h3>AI</h3>
+            <p>Goal: Intelligent behaviour.</p>
+        </div>
+        <div class="card">
+            <h3>ML</h3>
+            <p>Goal: Learning patterns from data.</p>
+        </div>
+        <div class="card">
+            <h3>DL</h3>
+            <p>Goal: Learning complex representations using multiple neural network layers.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide">
+    <span class="eyebrow">04 / Learning Approaches</span>
+    <h2>Types of <span class="gradient-text">Machine Learning</span></h2>
+
+    <p class="section-intro">
+        Machine Learning is commonly divided into three major learning approaches.
+        Click each card to explore how it works.
+    </p>
+
+    <div class="grid three">
+        <div class="card ml-card selected" onclick="showML('supervised',this)">
+            <div class="card-icon">🏷️</div>
+            <h3>Supervised Learning</h3>
+            <p>Learns from labeled examples.</p>
+            <span class="tag">Labeled Data</span>
+        </div>
+
+        <div class="card ml-card" onclick="showML('unsupervised',this)">
+            <div class="card-icon">🔍</div>
+            <h3>Unsupervised Learning</h3>
+            <p>Discovers patterns in unlabeled data.</p>
+            <span class="tag">Unlabeled Data</span>
+        </div>
+
+        <div class="card ml-card" onclick="showML('reinforcement',this)">
+            <div class="card-icon">🎮</div>
+            <h3>Reinforcement Learning</h3>
+            <p>Learns through rewards and penalties.</p>
+            <span class="tag">Feedback</span>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:22px;">
+        <h3 id="mlTitle">Supervised Learning</h3>
+        <p id="mlDescription">
+            The model receives input data with correct answers (labels).
+            It learns a mapping between inputs and outputs and predicts
+            labels or numerical values for unseen examples.
+        </p>
+        <div class="diagram" style="margin-bottom:0;">
+            <strong id="mlExample">Example: Predicting house prices using previous house sales.</strong>
+            <p id="mlAlgorithms" style="margin-top:8px;">
+                Algorithms: Linear Regression, Decision Trees and Support Vector Machines.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid three" style="margin-top:18px;">
+        <div class="card">
+            <strong>Classification</strong>
+            <p>Predicts categories, such as spam or not spam.</p>
+        </div>
+        <div class="card">
+            <strong>Regression</strong>
+            <p>Predicts numerical values, such as house prices.</p>
+        </div>
+        <div class="card">
+            <strong>Clustering</strong>
+            <p>Groups similar data points, such as customer segments.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide">
+    <span class="eyebrow">05 / Neural Networks</span>
+    <h2>Neural Networks & <span class="gradient-text">How They Work</span></h2>
+
+    <p class="section-intro">
+        Artificial Neural Networks are computational models inspired by some
+        aspects of biological neural systems. They consist of connected
+        computational units called neurons.
+    </p>
+
+    <div class="network">
+        <div>
+            <div class="layer">
+                <div class="neuron"></div>
+                <div class="neuron"></div>
+                <div class="neuron"></div>
+            </div>
+            <div class="layer-label">Input Layer</div>
+        </div>
+
+        <span class="network-arrow">→</span>
+
+        <div>
+            <div class="layer">
+                <div class="neuron"></div>
+                <div class="neuron"></div>
+                <div class="neuron"></div>
+                <div class="neuron"></div>
+            </div>
+            <div class="layer-label">Hidden Layer</div>
+        </div>
+
+        <span class="network-arrow">→</span>
+
+        <div>
+            <div class="layer">
+                <div class="neuron"></div>
+                <div class="neuron"></div>
+            </div>
+            <div class="layer-label">Output Layer</div>
+        </div>
+    </div>
+
+    <p style="font-size:12px;text-align:center;margin:10px 0 25px;">
+        Simplified neural network architecture. Connections between neurons are omitted for clarity.
+    </p>
+
+    <div class="grid four">
+        <div class="card">
+            <div class="card-icon">📥</div>
+            <h3>Input</h3>
+            <p>Receives input features from the dataset.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🔗</div>
+            <h3>Weights</h3>
+            <p>Determine the strength of connections between neurons.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">⚡</div>
+            <h3>Activation</h3>
+            <p>Introduces non-linearity into the network.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">📤</div>
+            <h3>Output</h3>
+            <p>Produces a prediction or classification.</p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+        <h3>How does training happen?</h3>
+        <p>
+            The network calculates a prediction, compares it with the expected
+            output using a loss function, and adjusts its weights using
+            backpropagation and an optimization algorithm such as gradient descent.
+            This process repeats over training data.
+        </p>
+    </div>
+</section>
+
+<!-- SLIDE 7 -->
+<section class="slide">
+    <span class="eyebrow">06 / Real-world Impact</span>
+    <h2>Real-World <span class="gradient-text">Applications of AI</span></h2>
+
+    <p class="section-intro">
+        AI technologies are already transforming many industries by supporting
+        decision-making, automation and data analysis.
+    </p>
+
+    <div class="grid two">
+        <div class="card app-card">
+            <div class="card-icon">🏥</div>
+            <h3>Healthcare</h3>
+            <ul>
+                <li>Medical image analysis.</li>
+                <li>Clinical decision support.</li>
+                <li>Drug discovery research.</li>
+                <li>Patient monitoring.</li>
+            </ul>
+        </div>
+
+        <div class="card app-card">
+            <div class="card-icon">🎓</div>
+            <h3>Education</h3>
+            <ul>
+                <li>Personalized learning platforms.</li>
+                <li>AI-powered tutoring systems.</li>
+                <li>Automated feedback.</li>
+                <li>Learning analytics.</li>
+            </ul>
+        </div>
+
+        <div class="card app-card">
+            <div class="card-icon">🏦</div>
+            <h3>Finance</h3>
+            <ul>
+                <li>Fraud detection.</li>
+                <li>Credit risk assessment.</li>
+                <li>Transaction monitoring.</li>
+                <li>Customer service automation.</li>
+            </ul>
+        </div>
+
+        <div class="card app-card">
+            <div class="card-icon">🚗</div>
+            <h3>Transportation</h3>
+            <ul>
+                <li>Driver assistance systems.</li>
+                <li>Traffic prediction.</li>
+                <li>Route optimization.</li>
+                <li>Autonomous driving research.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 8 -->
+<section class="slide">
+    <span class="eyebrow">07 / Critical Thinking</span>
+    <h2>Benefits & <span class="gradient-text">Limitations of AI</span></h2>
+
+    <p class="section-intro">
+        AI offers powerful capabilities, but its effectiveness depends on
+        the quality of data, design, implementation and human oversight.
+    </p>
+
+    <div class="grid two">
+        <div class="card">
+            <div class="card-icon">✅</div>
+            <h3>Benefits</h3>
+            <ul>
+                <li>Automates repetitive tasks.</li>
+                <li>Processes large datasets quickly.</li>
+                <li>Can improve consistency in specific tasks.</li>
+                <li>Supports faster decision-making.</li>
+                <li>Enables personalized services.</li>
+                <li>Assists scientific research and innovation.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">⚠️</div>
+            <h3>Limitations</h3>
+            <ul>
+                <li>Can inherit bias from training data.</li>
+                <li>May produce inaccurate outputs.</li>
+                <li>Requires suitable data and computing resources.</li>
+                <li>Can create privacy and security risks.</li>
+                <li>May lack human context and judgment.</li>
+                <li>Can affect employment and existing workflows.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="highlight-card" style="margin-top:25px;">
+        <h3>Important Takeaway</h3>
+        <p>
+            AI should be treated as a tool that supports human capabilities,
+            not as an unquestionable replacement for human judgment.
+        </p>
+    </div>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide">
+    <span class="eyebrow">08 / Responsible Technology</span>
+    <h2>Responsible AI, <span class="gradient-text">Ethics & Privacy</span></h2>
+
+    <p class="section-intro">
+        Responsible AI means designing, developing and deploying AI systems
+        in ways that respect people, reduce harm and promote accountability.
+    </p>
+
+    <div class="grid three">
+        <div class="card">
+            <div class="card-icon">⚖️</div>
+            <h3>Fairness</h3>
+            <p>Identify and reduce unfair bias that may affect individuals or groups.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🔐</div>
+            <h3>Privacy</h3>
+            <p>Protect personal information and use data responsibly with appropriate safeguards.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🔍</div>
+            <h3>Transparency</h3>
+            <p>Make AI capabilities, limitations and decision processes understandable where possible.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">👤</div>
+            <h3>Accountability</h3>
+            <p>Ensure people and organizations remain responsible for AI system outcomes.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🛡️</div>
+            <h3>Safety</h3>
+            <p>Test systems for harmful behavior, reliability and security vulnerabilities.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🤝</div>
+            <h3>Human Oversight</h3>
+            <p>Keep appropriate human review and intervention in important decisions.</p>
+        </div>
+    </div>
+
+    <div class="diagram">
+        <h3>Example: Bias in AI recruitment</h3>
+        <p>
+            If a recruitment model is trained on historical hiring data
+            containing discriminatory patterns, it may reproduce those
+            patterns. Auditing data and model outcomes helps reduce this risk.
+        </p>
+    </div>
+</section>
+
+<!-- SLIDE 10 -->
+<section class="slide">
+    <span class="eyebrow">09 / Looking Ahead</span>
+    <h2>The <span class="gradient-text">Future of AI</span></h2>
+
+    <p class="section-intro">
+        AI continues to evolve, creating new opportunities in science,
+        industry, education and everyday life.
+    </p>
+
+    <div class="grid two">
+        <div class="card">
+            <div class="card-icon">✨</div>
+            <h3>Generative AI</h3>
+            <p>Systems that generate text, images, audio, video and software code.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🤖</div>
+            <h3>AI Agents</h3>
+            <p>Systems that can plan and perform multi-step tasks using tools, within defined permissions.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🧬</div>
+            <h3>AI in Science</h3>
+            <p>Supporting scientific discovery, material research and biological analysis.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🌐</div>
+            <h3>Edge AI</h3>
+            <p>Running AI models directly on devices such as phones, sensors and embedded systems.</p>
+        </div>
+    </div>
+
+    <h3 style="margin:28px 0 20px;">Key learning journey</h3>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <h3>Understand the foundations</h3>
+            <p>Learn programming, mathematics, statistics and data structures.</p>
+        </div>
+
+        <div class="timeline-item">
+            <h3>Build Machine Learning skills</h3>
+            <p>Explore Python, NumPy, Pandas, Scikit-learn and model evaluation.</p>
+        </div>
+
+        <div class="timeline-item">
+            <h3>Explore Deep Learning</h3>
+            <p>Study neural networks, computer vision and natural language processing.</p>
+        </div>
+
+        <div class="timeline-item">
+            <h3>Create real-world projects</h3>
+            <p>Build useful applications while considering reliability, privacy and ethics.</p>
+        </div>
+    </div>
+
+    <div class="highlight-card" style="margin-top:25px;">
+        <h2>AI is not just the future. It is shaping the present.</h2>
+        <p>Understand it. Experiment with it. Build it responsibly.</p>
+    </div>
+</section>
+
+<!-- SLIDE 11: QUIZ -->
+<section class="slide">
+    <span class="eyebrow">Knowledge Check / Interactive Quiz</span>
+    <h2>Test Your <span class="gradient-text">AI & ML Knowledge</span></h2>
+
+    <p class="section-intro">
+        Answer all five questions to test your understanding of the concepts
+        covered in this presentation. Each question carries one mark.
+    </p>
+
+    <div id="quizContainer">
+
+        <div class="card quiz-question" data-answer="b">
+            <h3>1. What is Artificial Intelligence?</h3>
+            <div class="quiz-options">
+                <button class="quiz-option" data-choice="a">A type of computer hardware</button>
+                <button class="quiz-option" data-choice="b">A field focused on intelligent computer systems</button>
+                <button class="quiz-option" data-choice="c">A programming language</button>
+                <button class="quiz-option" data-choice="d">A database management system</button>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="card quiz-question" data-answer="c">
+            <h3>2. Machine Learning is a subset of which field?</h3>
+            <div class="quiz-options">
+                <button class="quiz-option" data-choice="a">Networking</button>
+                <button class="quiz-option" data-choice="b">Operating Systems</button>
+                <button class="quiz-option" data-choice="c">Artificial Intelligence</button>
+                <button class="quiz-option" data-choice="d">Database Systems</button>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="card quiz-question" data-answer="a">
+            <h3>3. Which learning approach uses labeled training data?</h3>
+            <div class="quiz-options">
+                <button class="quiz-option" data-choice="a">Supervised Learning</button>
+                <button class="quiz-option" data-choice="b">Unsupervised Learning</button>
+                <button class="quiz-option" data-choice="c">Reinforcement Learning</button>
+                <button class="quiz-option" data-choice="d">Random Learning</button>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="card quiz-question" data-answer="d">
+            <h3>4. What is the primary purpose of backpropagation?</h3>
+            <div class="quiz-options">
+                <button class="quiz-option" data-choice="a">Store training data</button>
+                <button class="quiz-option" data-choice="b">Delete incorrect records</button>
+                <button class="quiz-option" data-choice="c">Convert data into images</button>
+                <button class="quiz-option" data-choice="d">Compute gradients used to update network weights</button>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <div class="card quiz-question" data-answer="b">
+            <h3>5. Which is an important principle of Responsible AI?</h3>
+            <div class="quiz-options">
+                <button class="quiz-option" data-choice="a">Ignore data privacy</button>
+                <button class="quiz-option" data-choice="b">Fairness and transparency</button>
+                <button class="quiz-option" data-choice="c">Remove human oversight</button>
+                <button class="quiz-option" data-choice="d">Avoid testing AI systems</button>
+            </div>
+            <div class="feedback"></div>
+        </div>
+
+        <button class="nav-btn primary" id="submitQuiz" onclick="submitQuiz()">
+            Submit Quiz →
+        </button>
+
+        <div class="quiz-result" id="quizResult">
+            <div style="font-size:45px;" id="resultEmoji">🏆</div>
+            <h2 id="resultScore">Your Score: 0/5</h2>
+            <p id="resultMessage"></p>
+            <br>
+            <button class="nav-btn primary" onclick="resetQuiz()">Try Again</button>
+            <button class="nav-btn" onclick="restartPresentation()">Restart Presentation</button>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- BOTTOM NAVIGATION -->
+<footer class="bottom-controls">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+
+    <div style="text-align:center;">
+        <div class="slide-indicators" id="indicators"></div>
+        <p style="font-size:11px;margin-top:8px;" id="slideCounter">Slide 1 of 11</p>
+    </div>
+
+    <button class="nav-btn primary" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</footer>
+
+<!-- SLIDE NAVIGATION MENU -->
+<div class="slide-menu" id="slideMenu" onclick="closeMenuOutside(event)">
+    <div class="menu-panel">
+        <div class="menu-header">
+            <h3>Presentation Contents</h3>
+            <button class="icon-btn" onclick="toggleMenu()">✕</button>
+        </div>
+        <div id="menuItems"></div>
+    </div>
+</div>
+
+<script>
+/* ================= PRESENTATION STATE ================= */
+
+const slides = document.querySelectorAll(".slide");
+const totalSlides = slides.length;
+
+let currentSlide = 0;
+
+const slideNames = [
+    "Introduction",
+    "What is Artificial Intelligence?",
+    "What is Machine Learning?",
+    "AI vs ML vs Deep Learning",
+    "Types of Machine Learning",
+    "Neural Networks",
+    "Real-world Applications",
+    "Benefits and Limitations",
+    "Responsible AI and Ethics",
+    "Future of AI",
+    "Knowledge Quiz"
+];
+
+/* ================= INITIALIZATION ================= */
+
+function initializePresentation() {
+    const indicators = document.getElementById("indicators");
+    const menuItems = document.getElementById("menuItems");
+
+    // Create clickable slide indicators and navigation menu items.
+    slideNames.forEach((name, index) => {
+        const dot = document.createElement("button");
+        dot.className = "dot";
+        dot.title = name;
+        dot.setAttribute("aria-label", "Go to " + name);
+        dot.onclick = () => goToSlide(index);
+        indicators.appendChild(dot);
+
+        const item = document.createElement("button");
+        item.className = "menu-item";
+        item.textContent = `${String(index + 1).padStart(2, "0")}  ${name}`;
+        item.onclick = () => {
+            goToSlide(index);
+            toggleMenu();
+        };
+        menuItems.appendChild(item);
+    });
+
+    updatePresentation();
+}
+
+/* ================= SLIDE NAVIGATION ================= */
+
+// Display the selected slide and update navigation indicators.
+function goToSlide(index) {
+    if (index < 0 || index >= totalSlides) return;
+
+    currentSlide = index;
+
+    slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === currentSlide);
+    });
+
+    updatePresentation();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Move one slide forward or backward.
+function changeSlide(direction) {
+    goToSlide(currentSlide + direction);
+}
+
+// Update progress, counter, buttons and active navigation states.
+function updatePresentation() {
+    document.querySelectorAll(".dot").forEach((dot, i) => {
+        dot.classList.toggle("active", i === currentSlide);
+    });
+
+    document.querySelectorAll(".menu-item").forEach((item, i) => {
+        item.classList.toggle("active", i === currentSlide);
+    });
+
+    document.getElementById("slideCounter").textContent =
+        `Slide ${currentSlide + 1} of ${totalSlides}`;
+
+    document.getElementById("progressBar").style.width =
+        `${((currentSlide + 1) / totalSlides) * 100}%`;
+
+    document.getElementById("prevBtn").disabled = currentSlide === 0;
+
+    document.getElementById("nextBtn").disabled =
+        currentSlide === totalSlides - 1;
+
+    document.getElementById("nextBtn").textContent =
+        currentSlide === totalSlides - 1 ? "Completed ✓" : "Next →";
+}
+
+/* ================= KEYBOARD NAVIGATION ================= */
+
+// Allow arrow keys to navigate while preventing interference with quiz inputs.
+document.addEventListener("keydown", function(event) {
+    const target = event.target;
+
+    if (
+        target.matches("input, textarea, select") ||
+        target.isContentEditable
+    ) return;
+
+    if (event.key === "ArrowRight") {
+        changeSlide(1);
+    }
+
+    if (event.key === "ArrowLeft") {
+        changeSlide(-1);
+    }
+
+    if (event.key === "Escape") {
+        document.getElementById("slideMenu").classList.remove("open");
+    }
+});
+
+/* ================= DARK / LIGHT MODE ================= */
+
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+
+    const darkMode = document.body.classList.contains("dark");
+
+    document.getElementById("themeBtn").textContent =
+        darkMode ? "🌙" : "☀️";
+}
+
+/* ================= FULLSCREEN ================= */
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.().catch(() => {
+            alert("Fullscreen mode is not available in this browser.");
+        });
+    } else {
+        document.exitFullscreen?.();
+    }
+}
+
+/* ================= SLIDE MENU ================= */
+
+function toggleMenu() {
+    document.getElementById("slideMenu").classList.toggle("open");
+}
+
+function closeMenuOutside(event) {
+    if (event.target.id === "slideMenu") {
+        toggleMenu();
+    }
+}
+
+/* ================= AI vs ML vs DL COMPARISON ================= */
+
+// Update the comparison panel based on the selected concept.
+function showComparison(type, button) {
+    const data = {
+        ai: {
+            title: "Artificial Intelligence (AI)",
+            description:
+                "A broad field of computer science that aims to build systems capable of tasks associated with intelligence, including reasoning, planning and problem solving.",
+            example:
+                "Example: A rule-based chess-playing program."
+        },
+        ml: {
+            title: "Machine Learning (ML)",
+            description:
+                "A subset of AI in which algorithms learn patterns from data to make predictions or decisions on new examples.",
+            example:
+                "Example: An email spam classifier trained on labeled emails."
+        },
+        dl: {
+            title: "Deep Learning (DL)",
+            description:
+                "A subset of machine learning that uses neural networks with multiple layers to learn complex representations from data.",
+            example:
+                "Example: A neural network identifying objects in photographs."
+        }
+    };
+
+    const selected = data[type];
+
+    document.getElementById("comparisonResult").innerHTML = `
+        <h3>${selected.title}</h3>
+        <p>${selected.description}</p>
+        <br>
+        <strong>${selected.example}</strong>
+    `;
+
+    document.querySelectorAll(".switch-btn").forEach(btn => {
+        btn.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+}
+
+/* ================= MACHINE LEARNING TYPES ================= */
+
+// Display detailed information when a learning-type card is clicked.
+function showML(type, card) {
+    const information = {
+        supervised: {
+            title: "Supervised Learning",
+            description:
+                "The model learns from labeled input-output examples. It attempts to minimize prediction errors and generalize to unseen data.",
+            example:
+                "Example: Predicting house prices from historical property data.",
+            algorithms:
+                "Algorithms: Linear Regression, Logistic Regression, Decision Trees, Random Forest and Support Vector Machines."
+        },
+        unsupervised: {
+            title: "Unsupervised Learning",
+            description:
+                "The algorithm explores unlabeled data to discover hidden structures, similarities, patterns or relationships without predefined target labels.",
+            example:
+                "Example: Grouping customers based on purchasing behavior.",
+            algorithms:
+                "Algorithms: K-Means Clustering, Hierarchical Clustering and Principal Component Analysis (PCA)."
+        },
+        reinforcement: {
+            title: "Reinforcement Learning",
+            description:
+                "An agent interacts with an environment, takes actions and receives rewards or penalties. It learns a policy that aims to maximize cumulative reward.",
+            example:
+                "Example: Training an agent to play a video game.",
+            algorithms:
+                "Methods: Q-Learning, SARSA and Deep Q-Networks (DQN)."
+        }
+    };
+
+    const selected = information[type];
+
+    document.getElementById("mlTitle").textContent = selected.title;
+    document.getElementById("mlDescription").textContent = selected.description;
+    document.getElementById("mlExample").textContent = selected.example;
+    document.getElementById("mlAlgorithms").textContent = selected.algorithms;
+
+    document.querySelectorAll(".ml-card").forEach(item => {
+        item.classList.remove("selected");
+    });
+
+    card.classList.add("selected");
+}
+
+/* ================= QUIZ SYSTEM ================= */
+
+let quizSubmitted = false;
+
+// Check the selected answer and calculate the final quiz score.
+function submitQuiz() {
+    if (quizSubmitted) return;
+
+    const questions = document.querySelectorAll(".quiz-question");
+    let score = 0;
+    let unanswered = 0;
+
+    questions.forEach(question => {
+        const correctAnswer = question.dataset.answer;
+        const selected = question.querySelector(".quiz-option.selected");
+        const feedback = question.querySelector(".feedback");
+        const buttons = question.querySelectorAll(".quiz-option");
+
+        if (!selected) {
+            unanswered++;
+            return;
+        }
+
+        const answer = selected.dataset.choice;
+
+        if (answer === correctAnswer) {
+            score++;
+            feedback.textContent = "✓ Correct answer!";
+            feedback.style.color = "#16a36a";
+        } else {
+            const correctButton = [...buttons].find(
+                button => button.dataset.choice === correctAnswer
+            );
+
+            feedback.textContent =
+                "✗ Incorrect. Correct answer: " + correctButton.textContent;
+
+            feedback.style.color = "#e45c5c";
+        }
+
+        // Highlight correct and incorrect answers.
+        buttons.forEach(button => {
+            if (button.dataset.choice === correctAnswer) {
+                button.classList.add("correct");
+            } else if (button === selected) {
+                button.classList.add("wrong");
+            }
+
+            button.disabled = true;
+        });
+    });
+
+    if (unanswered > 0) {
+        alert(`Please answer all questions. ${unanswered} question(s) remaining.`);
+        return;
+    }
+
+    quizSubmitted = true;
+
+    const result = document.getElementById("quizResult");
+
+    document.getElementById("resultScore").textContent =
+        `Your Score: ${score}/5`;
+
+    let message = "";
+    let emoji = "";
+
+    if (score === 5) {
+        message = "Excellent! You have mastered the fundamentals of AI and ML.";
+        emoji = "🏆";
+    } else if (score >= 3) {
+        message = "Good work! Review the concepts you missed and keep learning.";
+        emoji = "🌟";
+    } else {
+        message = "Keep practicing! Revisit the presentation and try again.";
+        emoji = "📚";
+    }
+
+    document.getElementById("resultMessage").textContent = message;
+    document.getElementById("resultEmoji").textContent = emoji;
+
+    result.style.display = "block";
+
+    document.getElementById("submitQuiz").style.display = "none";
+
+    result.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+// Select an answer only once per question.
+document.querySelectorAll(".quiz-question").forEach(question => {
+    question.querySelectorAll(".quiz-option").forEach(button => {
+        button.addEventListener("click", () => {
+            if (quizSubmitted) return;
+
+            question.querySelectorAll(".quiz-option").forEach(option => {
+                option.classList.remove("selected");
+                option.style.borderColor = "";
+            });
+
+            button.classList.add("selected");
+            button.style.borderColor = "var(--primary)";
+        });
+    });
+});
+
+/* ================= RESET QUIZ ================= */
+
+function resetQuiz() {
+    quizSubmitted = false;
+
+    document.querySelectorAll(".quiz-question").forEach(question => {
+        question.querySelectorAll(".quiz-option").forEach(button => {
+            button.disabled = false;
+            button.classList.remove("selected", "correct", "wrong");
+            button.style.borderColor = "";
+        });
+
+        question.querySelector(".feedback").textContent = "";
+    });
+
+    document.getElementById("quizResult").style.display = "none";
+    document.getElementById("submitQuiz").style.display = "inline-block";
+}
+
+/* ================= RESTART PRESENTATION ================= */
+
+// Return to the title slide and clear all quiz answers.
+function restartPresentation() {
+    resetQuiz();
+    goToSlide(0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ================= START ================= */
+
+initializePresentation();
+
+</script>
+</body>
+</html>

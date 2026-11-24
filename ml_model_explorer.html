@@ -1,0 +1,1749 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine Learning Model Explorer</title>
+
+<style>
+/* =========================
+   1. GLOBAL DESIGN SYSTEM
+========================= */
+:root {
+  --bg: #f4f7fc;
+  --surface: #ffffff;
+  --surface2: #f1f5fb;
+  --text: #182338;
+  --muted: #718096;
+  --border: #e2e8f0;
+  --primary: #635bdb;
+  --primary-light: #eeedff;
+  --cyan: #0ea5a4;
+  --green: #16a36a;
+  --orange: #e99a36;
+  --red: #e05b66;
+  --shadow: 0 5px 25px rgba(30, 50, 90, .06);
+}
+
+body.dark {
+  --bg: #101522;
+  --surface: #192235;
+  --surface2: #222e43;
+  --text: #edf2ff;
+  --muted: #9ba9c1;
+  --border: #304057;
+  --primary: #928bff;
+  --primary-light: #302e53;
+  --cyan: #43c6c1;
+  --green: #42c88d;
+  --orange: #f2b75c;
+  --red: #ff7885;
+  --shadow: 0 5px 25px rgba(0,0,0,.16);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  transition: background .25s, color .25s;
+}
+
+button, input { font: inherit; }
+
+button { cursor: pointer; }
+
+.app {
+  min-height: 100vh;
+}
+
+/* =========================
+   2. HEADER
+========================= */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 15px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 43px;
+  height: 43px;
+  border-radius: 13px;
+  background: linear-gradient(135deg,#635bdb,#16b8bb);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.brand h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.brand p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status {
+  color: var(--green);
+  background: var(--surface2);
+  border-radius: 20px;
+  padding: 7px 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.icon-btn {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 13px;
+}
+
+/* =========================
+   3. MAIN LAYOUT
+========================= */
+.container {
+  width: 92%;
+  max-width: 1450px;
+  margin: 30px auto;
+}
+
+.hero {
+  background: linear-gradient(120deg,#29245f,#554bd2 60%,#168eab);
+  color: white;
+  border-radius: 19px;
+  padding: 35px;
+  margin-bottom: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "ML";
+  position: absolute;
+  right: 5%;
+  top: -35px;
+  font-size: 170px;
+  font-weight: 900;
+  color: rgba(255,255,255,.07);
+}
+
+.hero h1 {
+  font-size: clamp(25px,4vw,38px);
+  margin: 0 0 12px;
+}
+
+.hero p {
+  max-width: 650px;
+  color: #dedcff;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.hero-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  color: #b8efff;
+  margin-bottom: 12px;
+}
+
+.workflow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+
+.workflow span {
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 9px;
+  padding: 10px 15px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.workflow b {
+  color: #b6f3ed;
+}
+
+/* =========================
+   4. CARDS AND SECTIONS
+========================= */
+.section-title {
+  font-size: 20px;
+  margin: 30px 0 15px;
+  font-weight: 800;
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: -8px;
+  margin-bottom: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12,1fr);
+  gap: 17px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-12 { grid-column: span 12; }
+
+.card h3 {
+  font-size: 15px;
+  margin: 0 0 12px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.metric {
+  font-size: 27px;
+  font-weight: 800;
+  margin: 10px 0 4px;
+}
+
+.metric-label {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* =========================
+   5. ALGORITHM SELECTOR
+========================= */
+.algorithm-options {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+}
+
+.algorithm {
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  padding: 16px;
+  border-radius: 12px;
+  text-align: left;
+  color: var(--text);
+  transition: .2s;
+}
+
+.algorithm:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.algorithm.active {
+  border: 2px solid var(--primary);
+  background: var(--primary-light);
+}
+
+.algorithm .emoji {
+  font-size: 23px;
+  margin-bottom: 9px;
+}
+
+.algorithm strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.algorithm small {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* =========================
+   6. INPUT CONTROLS
+========================= */
+.control {
+  margin: 23px 0;
+}
+
+.control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.value-badge {
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 5px 10px;
+  border-radius: 7px;
+}
+
+input[type=range] {
+  width: 100%;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 6px;
+}
+
+.btn {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.btn-primary {
+  color: white;
+  background: var(--primary);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-row {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* =========================
+   7. PREDICTION RESULT
+========================= */
+.result-card {
+  background: linear-gradient(135deg,#29245f,#554bd2);
+  border-radius: 15px;
+  color: white;
+  padding: 22px;
+}
+
+.result-card .result-label {
+  font-size: 11px;
+  color: #d2ceff;
+}
+
+.result-score {
+  font-size: 48px;
+  font-weight: 900;
+  margin: 8px 0;
+}
+
+.result-score span {
+  font-size: 17px;
+}
+
+.progress {
+  height: 9px;
+  background: rgba(255,255,255,.2);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: #5be1c3;
+  transition: width .5s;
+  border-radius: 20px;
+}
+
+.result-description {
+  color: #e3e1ff;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 14px;
+}
+
+/* =========================
+   8. EXPLANATION
+========================= */
+.explanation {
+  background: var(--surface2);
+  padding: 16px;
+  border-radius: 11px;
+  margin-top: 15px;
+  border-left: 3px solid var(--primary);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.hidden { display: none; }
+
+/* =========================
+   9. DATA TABLE
+========================= */
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 11px;
+  min-width: 490px;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  color: var(--muted);
+  background: var(--surface2);
+  font-size: 10px;
+}
+
+td { color: var(--text); }
+
+/* =========================
+   10. CHART
+========================= */
+.chart-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.legend-dot {
+  display: inline-block;
+  height: 9px;
+  width: 9px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+/* =========================
+   11. COMPARISON
+========================= */
+.comparison-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.comparison-item:last-child { border: 0; }
+
+.comparison-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.comparison-bar {
+  height: 7px;
+  background: var(--surface2);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.comparison-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: var(--primary);
+}
+
+/* =========================
+   12. FOOTER
+========================= */
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 30px 10px;
+  margin-top: 30px;
+  border-top: 1px solid var(--border);
+}
+
+.tag {
+  background: var(--surface2);
+  color: var(--primary);
+  padding: 5px 9px;
+  font-size: 10px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+/* =========================
+   13. RESPONSIVENESS
+========================= */
+@media(max-width:900px) {
+  .col-3 {grid-column:span 6}
+  .col-4 {grid-column:span 6}
+  .col-5 {grid-column:span 12}
+  .col-7 {grid-column:span 12}
+  .col-8 {grid-column:span 12}
+}
+
+@media(max-width:600px) {
+  .container {width:94%; margin:18px auto}
+  .header {padding:12px 3%}
+  .brand h2 {font-size:13px}
+  .brand p {font-size:9px}
+  .status {display:none}
+  .hero {padding:24px 19px}
+  .hero::after {font-size:100px; right:0}
+  .workflow {gap:6px}
+  .workflow span {padding:8px; font-size:10px}
+  .grid {gap:12px}
+  .col-3,.col-4,.col-5,.col-6,.col-7,.col-8 {
+    grid-column:span 12
+  }
+  .algorithm-options {grid-template-columns:1fr}
+  .algorithm {display:flex; gap:12px; align-items:center}
+  .algorithm .emoji {margin:0}
+  .algorithm strong {margin:0}
+  .card {padding:16px}
+  .result-score {font-size:40px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="brand">
+    <div class="logo">ML</div>
+    <div>
+      <h2>ML Model Explorer</h2>
+      <p>Interactive Machine Learning Lab</p>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <span class="status">● Simulation Active</span>
+    <button class="icon-btn" id="themeBtn" title="Toggle light and dark mode">
+      🌙
+    </button>
+  </div>
+</header>
+
+<main class="container">
+
+<!-- INTRODUCTION -->
+<section class="hero">
+  <div class="hero-label">WELCOME TO YOUR ML LAB</div>
+  <h1>Explore Machine Learning<br>Through Experiments.</h1>
+  <p>
+    Understand how algorithms learn patterns from data, build predictive
+    models, and make predictions. Experiment with different inputs and
+    discover how machine learning works.
+  </p>
+
+  <div class="workflow">
+    <span>📊 Data</span><b>→</b>
+    <span>⚙️ Training</span><b>→</b>
+    <span>🧠 Model</span><b>→</b>
+    <span>🎯 Prediction</span>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<h2 class="section-title">01. Machine Learning Overview</h2>
+<p class="section-subtitle">Understand the fundamentals before experimenting.</p>
+
+<div class="grid">
+
+  <div class="card col-3">
+    <div style="font-size:25px">📊</div>
+    <div class="metric">01</div>
+    <h3>Data Collection</h3>
+    <p class="muted">Collect useful information such as study hours, attendance and previous scores.</p>
+  </div>
+
+  <div class="card col-3">
+    <div style="font-size:25px">⚙️</div>
+    <div class="metric">02</div>
+    <h3>Training</h3>
+    <p class="muted">The algorithm analyzes sample records and identifies relationships between variables.</p>
+  </div>
+
+  <div class="card col-3">
+    <div style="font-size:25px">🧠</div>
+    <div class="metric">03</div>
+    <h3>Model Building</h3>
+    <p class="muted">The trained algorithm creates a model that represents learned patterns.</p>
+  </div>
+
+  <div class="card col-3">
+    <div style="font-size:25px">🎯</div>
+    <div class="metric">04</div>
+    <h3>Prediction</h3>
+    <p class="muted">The model uses new input data to estimate an unknown result.</p>
+  </div>
+
+</div>
+
+<!-- ALGORITHM EXPLORER -->
+<h2 class="section-title">02. Algorithm Explorer</h2>
+<p class="section-subtitle">Select an algorithm to understand its working mechanism.</p>
+
+<div class="card">
+  <div class="algorithm-options">
+
+    <button class="algorithm active" data-alg="linear">
+      <div class="emoji">📈</div>
+      <div>
+        <strong>Linear Regression</strong>
+        <small>Predict continuous numerical values</small>
+      </div>
+    </button>
+
+    <button class="algorithm" data-alg="tree">
+      <div class="emoji">🌳</div>
+      <div>
+        <strong>Decision Tree</strong>
+        <small>Learn through decision rules</small>
+      </div>
+    </button>
+
+    <button class="algorithm" data-alg="knn">
+      <div class="emoji">📍</div>
+      <div>
+        <strong>K-Nearest Neighbors</strong>
+        <small>Predict using similar examples</small>
+      </div>
+    </button>
+
+  </div>
+
+  <div class="explanation" id="algorithmExplanation">
+    <strong>How Linear Regression works</strong>
+    <p>
+      Linear Regression finds a mathematical relationship between input
+      features and a continuous output. It fits a line that minimizes
+      the squared prediction errors.
+    </p>
+    <strong>Mathematical formula:</strong>
+    <p>y = b₀ + b₁x₁ + b₂x₂ + b₃x₃</p>
+    Here, x₁, x₂ and x₃ represent study hours, attendance and previous score.
+  </div>
+</div>
+
+<!-- DATASET -->
+<h2 class="section-title">03. Interactive Dataset</h2>
+<p class="section-subtitle">
+  Simulated student performance dataset. Change the values to experiment.
+</p>
+
+<div class="grid">
+
+  <div class="card col-6">
+    <h3>🎛️ Prediction Input Controls</h3>
+    <p class="muted">Adjust the following student details.</p>
+
+    <div class="control">
+      <div class="control-header">
+        <label for="study">📚 Study Hours / Day</label>
+        <span class="value-badge" id="studyValue">5 hours</span>
+      </div>
+      <input type="range" id="study" min="0" max="12" value="5" step=".5">
+      <div class="range-labels"><span>0 hours</span><span>12 hours</span></div>
+    </div>
+
+    <div class="control">
+      <div class="control-header">
+        <label for="attendance">📅 Attendance</label>
+        <span class="value-badge" id="attendanceValue">80%</span>
+      </div>
+      <input type="range" id="attendance" min="0" max="100" value="80">
+      <div class="range-labels"><span>0%</span><span>100%</span></div>
+    </div>
+
+    <div class="control">
+      <div class="control-header">
+        <label for="previous">📝 Previous Test Score</label>
+        <span class="value-badge" id="previousValue">70</span>
+      </div>
+      <input type="range" id="previous" min="0" max="100" value="70">
+      <div class="range-labels"><span>0</span><span>100</span></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="predictBtn">⚡ Predict Score</button>
+      <button class="btn btn-secondary" id="randomBtn">🎲 Random Sample</button>
+      <button class="btn btn-secondary" id="resetBtn">↺ Reset</button>
+    </div>
+
+  </div>
+
+  <!-- RESULT -->
+  <div class="card col-6">
+    <h3>🎯 Prediction Result</h3>
+    <p class="muted">Predicted final examination score</p>
+
+    <div class="result-card">
+      <div class="result-label">ESTIMATED FINAL SCORE</div>
+      <div class="result-score">
+        <span id="predictedScore">--</span><span>/ 100</span>
+      </div>
+      <div class="progress">
+        <div class="progress-fill" id="resultProgress"></div>
+      </div>
+      <p class="result-description" id="resultDescription">
+        Adjust the input values and click Predict Score to generate a result.
+      </p>
+    </div>
+
+    <div style="margin-top:17px">
+      <span class="tag" id="selectedModel">Linear Regression</span>
+      <p class="muted" id="influenceText" style="margin-top:12px">
+        Your prediction will show the influence of each input variable.
+      </p>
+    </div>
+
+    <button class="btn btn-secondary" id="explainBtn" style="margin-top:10px">
+      👁 Show Prediction Explanation
+    </button>
+
+    <div class="explanation hidden" id="predictionExplanation">
+      Run a prediction to see how the model reached its result.
+    </div>
+  </div>
+
+</div>
+
+<!-- DATA TABLE -->
+<h2 class="section-title">04. Training Dataset</h2>
+<p class="section-subtitle">
+  A small sample of simulated student records used for model training.
+</p>
+
+<div class="card">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Study Hours</th>
+          <th>Attendance</th>
+          <th>Previous Score</th>
+          <th>Final Score</th>
+        </tr>
+      </thead>
+      <tbody id="datasetTable"></tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-bottom:0">
+    * All student records and scores are simulated educational data.
+  </p>
+</div>
+
+<!-- VISUALIZATION -->
+<h2 class="section-title">05. Data Visualization</h2>
+<p class="section-subtitle">
+  Explore the relationship between study hours and final examination scores.
+</p>
+
+<div class="grid">
+
+  <div class="card col-8">
+    <h3>📈 Study Hours vs Final Score</h3>
+    <p class="muted">Each dot represents a simulated student. The highlighted dot is your input.</p>
+
+    <div class="chart-container">
+      <svg id="scatterChart" viewBox="0 0 650 340"
+           role="img" aria-label="Scatter plot of study hours and final scores">
+        <g id="chartContent"></g>
+      </svg>
+    </div>
+
+    <div class="chart-legend">
+      <span><i class="legend-dot" style="background:#635bdb"></i>Training data</span>
+      <span><i class="legend-dot" style="background:#e99a36"></i>Current input</span>
+    </div>
+  </div>
+
+  <div class="card col-4">
+    <h3>📊 Input Summary</h3>
+    <p class="muted">Your current experiment values.</p>
+
+    <div class="comparison-item">
+      <div class="comparison-header">
+        <span>Study Hours</span>
+        <span id="summaryStudy">5 h</span>
+      </div>
+      <div class="comparison-bar">
+        <div class="comparison-fill" id="studyBar" style="width:41%"></div>
+      </div>
+    </div>
+
+    <div class="comparison-item">
+      <div class="comparison-header">
+        <span>Attendance</span>
+        <span id="summaryAttendance">80%</span>
+      </div>
+      <div class="comparison-bar">
+        <div class="comparison-fill" id="attendanceBar" style="width:80%"></div>
+      </div>
+    </div>
+
+    <div class="comparison-item">
+      <div class="comparison-header">
+        <span>Previous Score</span>
+        <span id="summaryPrevious">70</span>
+      </div>
+      <div class="comparison-bar">
+        <div class="comparison-fill" id="previousBar" style="width:70%"></div>
+      </div>
+    </div>
+
+    <div class="explanation">
+      <strong>Observation</strong>
+      <p class="muted">
+        Machine learning models use these input features to identify
+        patterns and estimate the final score.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ALGORITHM COMPARISON -->
+<h2 class="section-title">06. Algorithm Comparison</h2>
+<p class="section-subtitle">
+  Understand the differences between the three machine learning approaches.
+</p>
+
+<div class="grid">
+
+  <div class="card col-4">
+    <h3>📈 Linear Regression</h3>
+    <span class="tag">Regression</span>
+    <p class="muted">Learns a weighted mathematical relationship between features and the target.</p>
+    <div class="comparison-item">
+      <div class="comparison-header"><span>Interpretability</span><span>High</span></div>
+      <div class="comparison-bar"><div class="comparison-fill" style="width:90%"></div></div>
+    </div>
+    <div class="comparison-item">
+      <div class="comparison-header"><span>Complexity</span><span>Low</span></div>
+      <div class="comparison-bar"><div class="comparison-fill" style="width:25%"></div></div>
+    </div>
+    <p class="muted">Useful for: Predicting marks, prices and trends.</p>
+  </div>
+
+  <div class="card col-4">
+    <h3>🌳 Decision Tree</h3>
+    <span class="tag">Rule-based model</span>
+    <p class="muted">Makes predictions by following a sequence of feature-based decision rules.</p>
+    <div class="comparison-item">
+      <div class="comparison-header"><span>Interpretability</span><span>High</span></div>
+      <div class="comparison-bar"><div class="comparison-fill" style="width:85%"></div></div>
+    </div>
+    <div class="comparison-item">
+      <div class="comparison-header"><span>Complexity</span><span>Medium</span></div>
+      <div class="comparison-bar"><div class="comparison-fill" style="width:55%"></div></div>
+    </div>
+    <p class="muted">Useful for: Classification, decision systems and risk analysis.</p>
+  </div>
+
+  <div class="card col-4">
+    <h3>📍 K-Nearest Neighbors</h3>
+    <span class="tag">Instance-based learning</span>
+    <p class="muted">Finds similar training examples and combines their target values.</p>
+    <div class="comparison-item">
+      <div class="comparison-header"><span>Interpretability</span><span>Medium</span></div>
+      <div class="comparison-bar"><div class="comparison-fill" style="width:65%"></div></div>
+    </div>
+    <div class="comparison-item">
+      <div class="comparison-header"><span>Complexity</span><span>Medium</span></div>
+      <div class="comparison-bar"><div class="comparison-fill" style="width:60%"></div></div>
+    </div>
+    <p class="muted">Useful for: Recommendation systems, pattern recognition and similarity analysis.</p>
+  </div>
+
+</div>
+
+<!-- DECISION TREE VISUAL -->
+<h2 class="section-title">07. Decision Tree Visualization</h2>
+<div class="card">
+  <h3>🌳 Illustrative Decision Path</h3>
+  <p class="muted">A simplified example of how a decision tree can make decisions.</p>
+
+  <div style="text-align:center;padding:10px">
+    <div style="display:inline-block;background:var(--primary-light);color:var(--primary);padding:13px 20px;border-radius:9px;font-weight:700;font-size:12px">
+      Study Hours ≥ 5?
+    </div>
+    <div style="display:flex;justify-content:center;gap:60px;color:var(--muted);font-size:11px;margin:12px">
+      <span>Yes ↓</span><span>No ↓</span>
+    </div>
+    <div style="display:flex;justify-content:center;gap:15px;flex-wrap:wrap">
+      <div style="background:var(--surface2);padding:14px;border-radius:9px;font-size:12px;min-width:130px">
+        Attendance ≥ 75%?
+        <div style="margin-top:10px;color:var(--green)">High potential</div>
+      </div>
+      <div style="background:var(--surface2);padding:14px;border-radius:9px;font-size:12px;min-width:130px">
+        Previous Score ≥ 50?
+        <div style="margin-top:10px;color:var(--orange)">Moderate potential</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="muted">
+    Note: This is an illustrative rule structure. The actual prediction
+    simulator uses a separate explicit rule-based implementation.
+  </p>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <strong>Machine Learning Model Explorer</strong>
+  <p>Educational project | HTML + CSS + Vanilla JavaScript</p>
+  <p>All student data is simulated. Predictions are educational demonstrations,
+  not validated academic performance assessments.</p>
+</footer>
+
+</main>
+</div>
+
+<script>
+/* ============================================
+   MACHINE LEARNING MODEL EXPLORER
+   All calculations are performed in JavaScript.
+============================================ */
+
+/* 1. SIMULATED TRAINING DATASET
+   Features: Study hours, attendance, previous score
+   Target: Final examination score
+*/
+
+const trainingData = [
+  {id:"S01", study:1, attendance:45, previous:35, final:39},
+  {id:"S02", study:2, attendance:55, previous:40, final:44},
+  {id:"S03", study:3, attendance:60, previous:48, final:50},
+  {id:"S04", study:4, attendance:65, previous:55, final:56},
+  {id:"S05", study:5, attendance:70, previous:60, final:63},
+  {id:"S06", study:6, attendance:75, previous:65, final:69},
+  {id:"S07", study:7, attendance:80, previous:72, final:76},
+  {id:"S08", study:8, attendance:85, previous:78, final:83},
+  {id:"S09", study:9, attendance:90, previous:85, final:90},
+  {id:"S10", study:10, attendance:95, previous:90, final:95},
+  {id:"S11", study:3, attendance:85, previous:75, final:69},
+  {id:"S12", study:6, attendance:60, previous:50, final:58},
+  {id:"S13", study:8, attendance:70, previous:65, final:74},
+  {id:"S14", study:4, attendance:90, previous:82, final:70},
+  {id:"S15", study:11, attendance:85, previous:88, final:94}
+];
+
+const defaults = {
+  study:5,
+  attendance:80,
+  previous:70
+};
+
+let selectedAlgorithm = "linear";
+let lastPrediction = null;
+let showExplanation = false;
+
+/* 2. DOM REFERENCES */
+
+const studyInput = document.getElementById("study");
+const attendanceInput = document.getElementById("attendance");
+const previousInput = document.getElementById("previous");
+
+const explanationContent = {
+  linear: `
+    <strong>How Linear Regression works</strong>
+    <p>
+    Linear Regression finds a mathematical relationship between input
+    features and a continuous output. It fits a line or hyperplane that
+    minimizes squared prediction errors.
+    </p>
+    <strong>Formula:</strong>
+    <p>y = b₀ + b₁x₁ + b₂x₂ + b₃x₃</p>
+    <p>In this experiment, the coefficients are calculated from the simulated
+    training dataset using least squares.</p>
+  `,
+  tree: `
+    <strong>How Decision Tree works</strong>
+    <p>
+    A Decision Tree makes decisions using conditions. It divides data into
+    branches until it reaches a prediction.
+    </p>
+    <strong>Example:</strong>
+    <p>If study hours ≥ 7 and attendance ≥ 75%, the model follows a high-score
+    branch.</p>
+    <p>This educational implementation uses predefined rules, not a
+    statistically trained tree.</p>
+  `,
+  knn: `
+    <strong>How K-Nearest Neighbors works</strong>
+    <p>
+    KNN calculates the distance between a new input and every training
+    record. It selects the K closest records and averages their final scores.
+    </p>
+    <strong>Distance formula:</strong>
+    <p>d = √[(x₁-y₁)² + (x₂-y₂)² + (x₃-y₃)²]</p>
+    <p>Features are normalized before calculating Euclidean distance.</p>
+  `
+};
+
+/* 3. RENDER DATASET TABLE */
+
+function renderTable() {
+  const tbody = document.getElementById("datasetTable");
+
+  tbody.innerHTML = trainingData.map(student => `
+    <tr>
+      <td><strong>${student.id}</strong></td>
+      <td>${student.study}</td>
+      <td>${student.attendance}%</td>
+      <td>${student.previous}</td>
+      <td><strong>${student.final}</strong></td>
+    </tr>
+  `).join("");
+}
+
+/* 4. READ CURRENT INPUT VALUES */
+
+function getInputs() {
+  return {
+    study: Number(studyInput.value),
+    attendance: Number(attendanceInput.value),
+    previous: Number(previousInput.value)
+  };
+}
+
+/* 5. UPDATE INPUT LABELS AND SUMMARY */
+
+function updateInputs() {
+  const x = getInputs();
+
+  document.getElementById("studyValue").textContent =
+    x.study + " hours";
+
+  document.getElementById("attendanceValue").textContent =
+    x.attendance + "%";
+
+  document.getElementById("previousValue").textContent =
+    x.previous;
+
+  document.getElementById("summaryStudy").textContent =
+    x.study + " h";
+
+  document.getElementById("summaryAttendance").textContent =
+    x.attendance + "%";
+
+  document.getElementById("summaryPrevious").textContent =
+    x.previous;
+
+  document.getElementById("studyBar").style.width =
+    (x.study / 12 * 100) + "%";
+
+  document.getElementById("attendanceBar").style.width =
+    x.attendance + "%";
+
+  document.getElementById("previousBar").style.width =
+    x.previous + "%";
+
+  drawChart();
+}
+
+/* ============================================
+   6. LINEAR REGRESSION IMPLEMENTATION
+============================================ */
+
+/* Solve a system of linear equations using
+   Gaussian elimination with partial pivoting.
+*/
+
+function solveLinearSystem(matrix, vector) {
+  const n = vector.length;
+
+  const a = matrix.map((row, i) => [...row, vector[i]]);
+
+  for (let i = 0; i < n; i++) {
+
+    let maxRow = i;
+
+    for (let k = i + 1; k < n; k++) {
+      if (Math.abs(a[k][i]) > Math.abs(a[maxRow][i])) {
+        maxRow = k;
+      }
+    }
+
+    [a[i], a[maxRow]] = [a[maxRow], a[i]];
+
+    if (Math.abs(a[i][i]) < 1e-10) {
+      throw new Error("Regression matrix is singular.");
+    }
+
+    const divisor = a[i][i];
+
+    for (let j = i; j <= n; j++) {
+      a[i][j] /= divisor;
+    }
+
+    for (let k = 0; k < n; k++) {
+      if (k !== i) {
+        const factor = a[k][i];
+
+        for (let j = i; j <= n; j++) {
+          a[k][j] -= factor * a[i][j];
+        }
+      }
+    }
+  }
+
+  return a.map(row => row[n]);
+}
+
+/* Calculate regression coefficients:
+   beta = (X transpose X)^-1 X transpose y
+   Solved here through Gaussian elimination.
+*/
+
+function trainLinearRegression(data) {
+  const features = data.map(d => [
+    1,
+    d.study,
+    d.attendance / 100,
+    d.previous / 100
+  ]);
+
+  const targets = data.map(d => d.final);
+
+  const size = 4;
+
+  const xtx = Array.from(
+    {length:size},
+    () => Array(size).fill(0)
+  );
+
+  const xty = Array(size).fill(0);
+
+  for (let i = 0; i < features.length; i++) {
+    for (let j = 0; j < size; j++) {
+
+      xty[j] += features[i][j] * targets[i];
+
+      for (let k = 0; k < size; k++) {
+        xtx[j][k] += features[i][j] * features[i][k];
+      }
+    }
+  }
+
+  return solveLinearSystem(xtx, xty);
+}
+
+/* Train once using simulated training data. */
+
+const regressionCoefficients =
+  trainLinearRegression(trainingData);
+
+/* Make regression prediction. */
+
+function predictLinear(x) {
+  const b = regressionCoefficients;
+
+  return b[0] +
+    b[1] * x.study +
+    b[2] * (x.attendance / 100) +
+    b[3] * (x.previous / 100);
+}
+
+/* ============================================
+   7. DECISION TREE IMPLEMENTATION
+============================================ */
+
+/* Illustrative decision rules.
+   This is NOT a statistically trained decision tree.
+*/
+
+function predictTree(x) {
+
+  if (x.study >= 7) {
+
+    if (x.attendance >= 75) {
+      return {
+        score: 85 + Math.min(10, (x.previous - 70) * 0.2),
+        path: "Study hours ≥ 7 → Attendance ≥ 75%"
+      };
+    }
+
+    return {
+      score: 68 + x.previous * 0.16,
+      path: "Study hours ≥ 7 → Attendance below 75%"
+    };
+
+  } else if (x.study >= 4) {
+
+    if (x.attendance >= 75) {
+      return {
+        score: 58 + x.previous * 0.25,
+        path: "Study hours between 4 and 7 → Attendance ≥ 75%"
+      };
+    }
+
+    return {
+      score: 45 + x.previous * 0.25,
+      path: "Study hours between 4 and 7 → Attendance below 75%"
+    };
+
+  } else {
+
+    if (x.previous >= 50) {
+      return {
+        score: 43 + x.previous * 0.30,
+        path: "Study hours below 4 → Previous score ≥ 50"
+      };
+    }
+
+    return {
+      score: 30 + x.previous * 0.25,
+      path: "Study hours below 4 → Previous score below 50"
+    };
+  }
+}
+
+/* ============================================
+   8. K-NEAREST NEIGHBORS IMPLEMENTATION
+============================================ */
+
+/* Normalize the features to avoid differences
+   in numerical scales affecting distance.
+*/
+
+function calculateDistance(a, b) {
+
+  const studyDistance =
+    (a.study - b.study) / 12;
+
+  const attendanceDistance =
+    (a.attendance - b.attendance) / 100;
+
+  const previousDistance =
+    (a.previous - b.previous) / 100;
+
+  return Math.sqrt(
+    studyDistance ** 2 +
+    attendanceDistance ** 2 +
+    previousDistance ** 2
+  );
+}
+
+/* Find the K nearest training records and
+   calculate their average final score.
+*/
+
+function predictKNN(x, k = 3) {
+
+  const neighbors = trainingData
+    .map(student => ({
+      ...student,
+      distance: calculateDistance(x, student)
+    }))
+    .sort((a,b) => a.distance - b.distance)
+    .slice(0,k);
+
+  const average =
+    neighbors.reduce((sum, item) =>
+      sum + item.final, 0) / neighbors.length;
+
+  return {
+    score: average,
+    neighbors
+  };
+}
+
+/* ============================================
+   9. SELECT ALGORITHM
+============================================ */
+
+function selectAlgorithm(algorithm) {
+
+  selectedAlgorithm = algorithm;
+
+  document.querySelectorAll(".algorithm").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.alg === algorithm
+    );
+  });
+
+  document.getElementById("algorithmExplanation").innerHTML =
+    explanationContent[algorithm];
+
+  const names = {
+    linear:"Linear Regression",
+    tree:"Decision Tree",
+    knn:"K-Nearest Neighbors"
+  };
+
+  document.getElementById("selectedModel").textContent =
+    names[algorithm];
+
+  runPrediction();
+}
+
+/* ============================================
+   10. PREDICTION ENGINE
+============================================ */
+
+/* Select the required algorithm and calculate
+   a real prediction from the current input.
+*/
+
+function runPrediction() {
+
+  const x = getInputs();
+
+  let score;
+  let details = "";
+  let influence = "";
+
+  if (selectedAlgorithm === "linear") {
+
+    score = predictLinear(x);
+
+    const b = regressionCoefficients;
+
+    details = `
+      <strong>Linear Regression calculation</strong><br>
+      Intercept: ${b[0].toFixed(2)}<br>
+      Study coefficient: ${b[1].toFixed(2)}<br>
+      Attendance coefficient: ${b[2].toFixed(2)}<br>
+      Previous score coefficient: ${b[3].toFixed(2)}<br>
+      Prediction: b₀ + b₁ × study + b₂ × attendance +
+      b₃ × previous score.
+    `;
+
+    influence =
+      "The model combines all three features using learned regression coefficients.";
+
+  }
+
+  else if (selectedAlgorithm === "tree") {
+
+    const result = predictTree(x);
+
+    score = result.score;
+
+    details = `
+      <strong>Decision Tree path</strong><br>
+      ${result.path}<br>
+      The model follows the conditions and produces a
+      score using its illustrative rule.
+    `;
+
+    influence =
+      "The prediction is influenced by the decision conditions reached in the tree.";
+
+  }
+
+  else {
+
+    const result = predictKNN(x,3);
+
+    score = result.score;
+
+    details = `
+      <strong>Three nearest neighbors</strong><br>
+      ${result.neighbors.map((n,i) =>
+        `Neighbor ${i+1}: ${n.id} | Distance:
+        ${n.distance.toFixed(3)} | Score: ${n.final}`
+      ).join("<br>")}
+      <br>Prediction = Average of the 3 nearest scores.
+    `;
+
+    influence =
+      "The model uses the three most similar student records.";
+
+  }
+
+  /* Final score is restricted to the valid 0-100 range. */
+
+  score = Math.max(0,Math.min(100,score));
+
+  lastPrediction = score;
+
+  showResult(score,details,influence);
+}
+
+/* ============================================
+   11. DISPLAY RESULT
+============================================ */
+
+function showResult(score,details,influence) {
+
+  const rounded = Math.round(score);
+
+  document.getElementById("predictedScore").textContent =
+    rounded;
+
+  document.getElementById("resultProgress").style.width =
+    rounded + "%";
+
+  let category;
+
+  if (rounded >= 85) {
+    category = "Excellent predicted performance!";
+  } else if (rounded >= 70) {
+    category = "Good predicted performance.";
+  } else if (rounded >= 50) {
+    category = "Moderate predicted performance.";
+  } else {
+    category = "The model predicts a lower score.";
+  }
+
+  document.getElementById("resultDescription").textContent =
+    category + " This is an educational model estimate.";
+
+  document.getElementById("influenceText").textContent =
+    influence;
+
+  document.getElementById("predictionExplanation").innerHTML =
+    details;
+
+  drawChart();
+}
+
+/* ============================================
+   12. SCATTER PLOT VISUALIZATION
+============================================ */
+
+/* SVG chart generated dynamically.
+   Training records are plotted as dots.
+   Current input is highlighted in orange.
+*/
+
+function drawChart() {
+
+  const svg = document.getElementById("chartContent");
+
+  const width = 650;
+  const height = 340;
+
+  const left = 65;
+  const right = 25;
+  const top = 20;
+  const bottom = 55;
+
+  const plotWidth = width-left-right;
+  const plotHeight = height-top-bottom;
+
+  const xScale = value =>
+    left + (value/12)*plotWidth;
+
+  const yScale = value =>
+    top + (1-value/100)*plotHeight;
+
+  let content = "";
+
+  /* Horizontal grid lines and labels. */
+
+  for (let i=0; i<=100; i+=20) {
+
+    const y = yScale(i);
+
+    content += `
+      <line x1="${left}" y1="${y}"
+      x2="${width-right}" y2="${y}"
+      stroke="var(--border)" stroke-width="1"/>
+
+      <text x="${left-12}" y="${y+4}"
+      fill="var(--muted)" font-size="11"
+      text-anchor="end">${i}</text>
+    `;
+  }
+
+  /* Vertical grid lines. */
+
+  for (let i=0; i<=12; i+=2) {
+
+    const x = xScale(i);
+
+    content += `
+      <line x1="${x}" y1="${top}"
+      x2="${x}" y2="${height-bottom}"
+      stroke="var(--border)" stroke-width="1"
+      stroke-dasharray="3 4"/>
+
+      <text x="${x}" y="${height-bottom+20}"
+      fill="var(--muted)" font-size="11"
+      text-anchor="middle">${i}</text>
+    `;
+  }
+
+  /* Axis titles. */
+
+  content += `
+    <text x="${width/2}" y="${height-8}"
+    fill="var(--muted)" font-size="12"
+    text-anchor="middle">Study Hours / Day</text>
+
+    <text x="15" y="${height/2}"
+    fill="var(--muted)" font-size="12"
+    text-anchor="middle"
+    transform="rotate(-90 15 ${height/2})">
+    Final Score
+    </text>
+  `;
+
+  /* Training dataset points. */
+
+  trainingData.forEach(d => {
+
+    content += `
+      <circle cx="${xScale(d.study)}"
+      cy="${yScale(d.final)}"
+      r="5" fill="#635bdb"
+      stroke="var(--surface)" stroke-width="1.5">
+        <title>${d.id}: ${d.study} hours, final score ${d.final}</title>
+      </circle>
+    `;
+  });
+
+  /* Current input marker. */
+
+  const x = getInputs();
+
+  const estimated = lastPrediction !== null
+    ? lastPrediction
+    : predictLinear(x);
+
+  content += `
+    <circle cx="${xScale(x.study)}"
+    cy="${yScale(estimated)}"
+    r="9" fill="#e99a36"
+    stroke="white" stroke-width="2.5">
+      <title>Current input: estimated score ${estimated.toFixed(1)}</title>
+    </circle>
+  `;
+
+  content += `
+    <text x="${xScale(x.study)+12}"
+    y="${yScale(estimated)-12}"
+    fill="var(--orange)" font-size="11"
+    font-weight="bold">Your input</text>
+  `;
+
+  svg.innerHTML = content;
+}
+
+/* ============================================
+   13. RANDOM SAMPLE GENERATOR
+============================================ */
+
+function randomSample() {
+
+  studyInput.value =
+    (Math.random()*12).toFixed(1);
+
+  attendanceInput.value =
+    Math.floor(Math.random()*101);
+
+  previousInput.value =
+    Math.floor(Math.random()*101);
+
+  updateInputs();
+  runPrediction();
+}
+
+/* ============================================
+   14. RESET FUNCTION
+============================================ */
+
+function resetInputs() {
+
+  studyInput.value = defaults.study;
+  attendanceInput.value = defaults.attendance;
+  previousInput.value = defaults.previous;
+
+  updateInputs();
+
+  document.getElementById("predictedScore").textContent = "--";
+  document.getElementById("resultProgress").style.width = "0%";
+
+  document.getElementById("resultDescription").textContent =
+    "Adjust the input values and click Predict Score to generate a result.";
+
+  document.getElementById("influenceText").textContent =
+    "Your prediction will show the influence of each input variable.";
+
+  document.getElementById("predictionExplanation").innerHTML =
+    "Run a prediction to see how the model reached its result.";
+
+  lastPrediction = null;
+  showExplanation = false;
+
+  document.getElementById("predictionExplanation")
+    .classList.add("hidden");
+
+  document.getElementById("explainBtn").textContent =
+    "👁 Show Prediction Explanation";
+}
+
+/* ============================================
+   15. THEME SWITCHER
+============================================ */
+
+document.getElementById("themeBtn").addEventListener("click", () => {
+
+  document.body.classList.toggle("dark");
+
+  const dark = document.body.classList.contains("dark");
+
+  document.getElementById("themeBtn").textContent =
+    dark ? "☀️" : "🌙";
+
+  drawChart();
+});
+
+/* ============================================
+   16. EVENT LISTENERS
+============================================ */
+
+document.querySelectorAll(".algorithm").forEach(button => {
+
+  button.addEventListener("click", () => {
+    selectAlgorithm(button.dataset.alg);
+  });
+
+});
+
+[studyInput,attendanceInput,previousInput].forEach(input => {
+
+  input.addEventListener("input", () => {
+    updateInputs();
+  });
+
+});
+
+document.getElementById("predictBtn").addEventListener(
+  "click",runPrediction
+);
+
+document.getElementById("randomBtn").addEventListener(
+  "click",randomSample
+);
+
+document.getElementById("resetBtn").addEventListener(
+  "click",resetInputs
+);
+
+/* SHOW/HIDE PREDICTION EXPLANATION */
+
+document.getElementById("explainBtn").addEventListener(
+  "click",() => {
+
+    showExplanation = !showExplanation;
+
+    document.getElementById("predictionExplanation")
+      .classList.toggle("hidden",!showExplanation);
+
+    document.getElementById("explainBtn").textContent =
+      showExplanation
+      ? "🙈 Hide Prediction Explanation"
+      : "👁 Show Prediction Explanation";
+  }
+);
+
+/* ============================================
+   17. APPLICATION INITIALIZATION
+============================================ */
+
+function initializeApp() {
+
+  renderTable();
+
+  updateInputs();
+
+  selectAlgorithm("linear");
+
+}
+
+/* Start application. */
+
+initializeApp();
+
+</script>
+
+</body>
+</html>
