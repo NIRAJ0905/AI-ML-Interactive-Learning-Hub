@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore interactive learning tools for Artificial Intelligence and Machine Learning.">
+  <title>AI &amp; ML Learning Hub</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #f5f7fc;
+      --surface: #ffffff;
+      --text: #192238;
+      --muted: #68748b;
+      --border: #e4e9f2;
+      --primary: #6258df;
+      --primary-soft: #eeedff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 12% 0%, #e9eaff 0, transparent 38%), var(--background);
+      color: var(--text);
+      font: 16px/1.6 "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    main {
+      width: min(1050px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 76px 0;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 12px 0;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      letter-spacing: -.055em;
+      line-height: 1.05;
+    }
+
+    .intro {
+      max-width: 650px;
+      margin: 18px 0 42px;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .apps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 18px;
+    }
+
+    .app {
+      display: flex;
+      min-height: 250px;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 25px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+      box-shadow: 0 12px 35px rgb(34 47 81 / 6%);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .app:hover, .app:focus-visible {
+      transform: translateY(-4px);
+      border-color: #bcb7fa;
+      box-shadow: 0 18px 42px rgb(34 47 81 / 11%);
+      outline: none;
+    }
+
+    .icon {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border-radius: 15px;
+      background: var(--primary-soft);
+      font-size: 1.5rem;
+    }
+
+    h2 { margin: 18px 0 6px; font-size: 1.2rem; }
+    .app p { margin: 0; color: var(--muted); font-size: .95rem; }
+    .open { margin-top: auto; padding-top: 20px; color: var(--primary); font-weight: 700; }
+    footer { margin-top: 34px; color: var(--muted); font-size: .85rem; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="eyebrow">Interactive learning collection</span>
+    <h1>Explore AI &amp; Machine Learning</h1>
+    <p class="intro">Learn core concepts, test your knowledge, and experiment with simple machine learning models using these browser-based educational tools.</p>
+
+    <section class="apps" aria-label="Learning applications">
+      <a class="app" href="./ai_ml_dashboard.html">
+        <span class="icon" aria-hidden="true">📚</span>
+        <h2>AI &amp; ML Learning Hub</h2>
+        <p>Explore concepts, track your progress, take a quiz, and review flashcards.</p>
+        <span class="open">Open learning hub →</span>
+      </a>
+
+      <a class="app" href="./interactive_ai_presentation.html">
+        <span class="icon" aria-hidden="true">🎓</span>
+        <h2>Interactive Presentation</h2>
+        <p>Follow a guided presentation covering AI, machine learning, applications, and responsible AI.</p>
+        <span class="open">Start presentation →</span>
+      </a>
+
+      <a class="app" href="./ml_model_explorer.html">
+        <span class="icon" aria-hidden="true">📊</span>
+        <h2>ML Model Explorer</h2>
+        <p>Adjust sample student data and compare predictions from three learning algorithms.</p>
+        <span class="open">Explore the models →</span>
+      </a>
+    </section>
+
+    <footer>Educational demonstrations using simulated data. No sign-in or installation required.</footer>
+  </main>
+</body>
+</html>
